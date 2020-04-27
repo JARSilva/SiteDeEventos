@@ -35,7 +35,7 @@ public class ShowHouseController {
 	}
 
 	@GetMapping("/showShowHouse")
-	public String getShowHouse(@RequestParam("customerId") int showHouseId, Model model) {
+	public String getShowHouse(@RequestParam("showhouseId") int showHouseId, Model model) {
 
 		ShowHouse showHouse = showHouseService.getShowHouse(showHouseId);
 
@@ -74,7 +74,6 @@ public class ShowHouseController {
 	@DeleteMapping("/deleteShowHouse")
 	public String deleteShowHouse(@RequestParam("showHouseId") long id) {
 
-		// delete the customer
 		showHouseService.deleteShowHouse(id);
 
 		return "redirect:/event/showEvents";

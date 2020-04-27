@@ -10,34 +10,34 @@ public class OrderItemPK implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	@Column(name = "order_id")
-	private Integer order;
+	private Long order;
 
 	@Column(name = "event_id")
-	private Integer event;
+	private Long event;
 
 	public OrderItemPK() {
 		super();
 	}
 
-	public OrderItemPK(Integer order, Integer event) {
+	public OrderItemPK(Long order, Long event) {
 		super();
 		this.order = order;
 		this.event = event;
 	}
 
-	public Integer getOrder() {
+	public Long getOrder() {
 		return order;
 	}
 
-	public void setOrder(Integer order) {
+	public void setOrder(Long order) {
 		this.order = order;
 	}
 
-	public Integer getEvent() {
+	public Long getEvent() {
 		return event;
 	}
 
-	public void setEvent(Integer event) {
+	public void setEvent(Long event) {
 		this.event = event;
 	}
 

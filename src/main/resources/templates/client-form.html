@@ -1,0 +1,46 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<meta charset="UTF-8">
+<title>EventosApp</title>
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+</head>
+<body>
+
+	<div th:replace="@{fragments/nav} :: navbar"></div>
+	
+	<div class="container">
+		<form th:action="@{/client/saveClient}"
+			th:object="${client}" method="POST">
+			
+			<div class="form-group">
+				<label for="clientName">Nome</label> 
+				<input type="text" class="form-control" id="clientName" 
+				placeholder="Digite o nome do cliente"  th:field="*{name}"/>
+			</div>
+			
+			<div class="form-group">
+				<label for="clientCpf">Cpf</label> 
+				<input type="text" class="form-control" id="clientCpf" 
+				placeholder="Digite o cpf do cliente" th:field="*{cpf}"/>
+			</div>
+			
+			<!-- <div class="form-group">
+				<label for="clientBirthDate">Data de Nascimento</label> 
+				<input  type="date" class="form-control" placeholder="Digite a data de Nascimento"
+					id="clientBirthDate" th:field="*{birthDate}" />
+			</div>  -->
+			
+			<div class="form-group">
+				<label for="clientEmail">Email</label> 
+				<input type="text" class="form-control" id="clientEmail" 
+				placeholder="Digite o email do cliente" th:field="*{email}"/>
+			</div>
+
+			<button type="submit" class="btn btn-primary">Submit</button>
+		</form>
+	</div>
+</body>
+</html>

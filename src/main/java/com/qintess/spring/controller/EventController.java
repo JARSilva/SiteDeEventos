@@ -1,5 +1,6 @@
 package com.qintess.spring.controller;
 
+import java.io.File;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,7 +44,7 @@ public class EventController {
 	}
 
 	@GetMapping("/showEvent")
-	public String getEvent(@RequestParam("customerId") int eventId, Model model) {
+	public String getEvent(@RequestParam("eventId") int eventId, Model model) {
 
 		Event event = eventService.getEvent(eventId);
 
@@ -63,9 +64,21 @@ public class EventController {
 
 		return "event-form";
 	}
+	
+	@GetMapping("/buyEvent")
+	public String buyEvent(@RequestParam("eventId") int eventId, Model model) {
+
+		Event event = eventService.getEvent(eventId);
+		
+		model.addAttribute("event", event);
+
+		return "order-form";
+	}
 
 	@PostMapping("/saveEvent")
 	public String saveEvent(@ModelAttribute("event") Event event) {
+		 
+		 
 		eventService.saveOrUpdateEvent(event);
 
 		return "redirect:/event/showEvents";
@@ -84,7 +97,6 @@ public class EventController {
 	@DeleteMapping("/deleteEvent")
 	public String deleteEvent(@RequestParam("showHouseId") long id) {
 
-		// delete the customer
 		eventService.deleteEvent(id);
 
 		return "redirect:/event/showEvents";

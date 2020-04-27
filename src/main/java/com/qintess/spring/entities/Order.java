@@ -89,7 +89,15 @@ public class Order{
 	public void setOrders(Set<OrderItem> itens) {
 		this.itens = itens;
 	}
+	
 
+	public Client getClient() {
+		return client;
+	}
+
+	public void setClient(Client client) {
+		this.client = client;
+	}
 
 	@Override
 	public String toString() {

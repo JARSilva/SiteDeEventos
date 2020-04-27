@@ -37,6 +37,7 @@ public class OrderItem implements Serializable{
 	
 	public OrderItem() {
 		super();
+		id = new OrderItemPK();
 	}
 
 	public OrderItem(Order order, Event event, Integer qtd, Double subTotal) {
@@ -45,6 +46,7 @@ public class OrderItem implements Serializable{
 		this.event = event;
 		this.qtd = qtd;
 		this.subTotal = subTotal;
+		this.id = new OrderItemPK(order.getId(), event.getId());
 	}
 
 	public OrderItemPK getId() {
@@ -61,6 +63,8 @@ public class OrderItem implements Serializable{
 
 	public void setOrder(Order order) {
 		this.order = order;
+		id.setOrder(order.getId());
+		
 	}
 
 	public Event getEvent() {
@@ -69,6 +73,7 @@ public class OrderItem implements Serializable{
 
 	public void setEvent(Event event) {
 		this.event = event;
+		id.setEvent(event.getId());
 	}
 
 	public Integer getQtd() {

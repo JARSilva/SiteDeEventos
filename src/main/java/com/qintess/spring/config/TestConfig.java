@@ -1,6 +1,7 @@
 package com.qintess.spring.config;
 
 import java.util.Arrays;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -10,6 +11,8 @@ import org.springframework.context.annotation.Profile;
 import com.qintess.spring.entities.Client;
 import com.qintess.spring.entities.Contact;
 import com.qintess.spring.entities.Event;
+import com.qintess.spring.entities.Order;
+import com.qintess.spring.entities.OrderItem;
 import com.qintess.spring.entities.ShowHouse;
 import com.qintess.spring.repositories.AddressRepository;
 import com.qintess.spring.repositories.CityRepository;
@@ -59,15 +62,15 @@ public class TestConfig implements CommandLineRunner {
 		
 		Client client = new Client("João", "1231321", null, "jo@hotmail.com");
 		clientRepository.save(client);
-		
-		Contact c1 = new Contact("132231212", client);
-		Contact c2 = new Contact("222222212", client);
-		Contact c3 = new Contact("454545452", client);
-		Contact c4 = new Contact("235555232", client);
-		Contact c5 = new Contact("000000000", client);
-		
-		client.getContacts().addAll(Arrays.asList(c1,c2,c3,c4,c5));
-		
-		clientRepository.save(client);
+		Order order = new Order(null, 10.0, null);
+		orderRepository.save(order);
+		order.setClient(client);
+		orderRepository.save(order);
+		Event ev = new Event("Festa da aaaa", "Sem criativity", null, 5.0, 3000, null, null);
+		eventRepository.save(ev);
+		System.out.println(eventRepository.findById(1L).get());
+		OrderItem od = new OrderItem(orderRepository.findById(1L).get(), eventRepository.findById(1L).get(), 2, 5.0);
+		System.out.println(od);
+		orderItemRepository.save(od);
 	}
 }

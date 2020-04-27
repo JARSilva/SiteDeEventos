@@ -35,7 +35,7 @@ public class ClientController {
 	}
 
 	@GetMapping("/showClient")
-	public String getClient(@RequestParam("customerId") int clientId, Model model) {
+	public String getClient(@RequestParam("clientId") int clientId, Model model) {
 
 		Client client = clientService.getClient(clientId);
 
@@ -45,7 +45,7 @@ public class ClientController {
 	}
 	
 	@GetMapping("/showAddForm")
-	public String showAddForm(Model model, Model modelShowHouse) {
+	public String showAddForm(Model model) {
 
 		Client client = new Client();
 		
@@ -74,7 +74,6 @@ public class ClientController {
 	@DeleteMapping("/deleteClient")
 	public String deleteClient(@RequestParam("showHouseId") long id) {
 
-		// delete the customer
 		clientService.deleteClient(id);
 
 		return "redirect:/event/showEvents";

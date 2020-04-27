@@ -42,6 +42,9 @@ public class Event implements Serializable{
 	@Column(name = "event_qtdTicket")
 	private Integer qtdTicket;
 	
+	@Column(name = "event_photo")
+	private String photo;
+	
 	@ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
 	@JoinColumn(name = "client_id")
 	private Client client;
@@ -141,9 +144,17 @@ public class Event implements Serializable{
 		this.orders = orders;
 	}
 
+	public String getPhoto() {
+		return photo;
+	}
+
+	public void setPhoto(String photo) {
+		this.photo = photo;
+	}
+
 	@Override
 	public String toString() {
-		return "Event [id=" + id + ", name=" + name + ", description=" + description + ", showHouse=" + showHouse + ", date="
+		return "Event [id=" + id + ", name=" + name + ", description=" + description + ", date="
 				+ date + ", price=" + price + ", qtdTicket=" + qtdTicket + "]";
 	}
 	
