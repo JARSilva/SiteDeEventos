@@ -27,7 +27,7 @@ public class CartService {
 
 	public boolean saveOrUpdateCart(Cart cart) {
 		Event event = cart.getEvent();
-		if((event.getQtdTicket() - cart.getQtd()) < 0) {
+		if((event.getQtdTicket() - cart.getQtd()) < 0 || cart.getQtd() > 4) {
 			return false;
 		}else {
 			event.setQtdTicket(event.getQtdTicket() - cart.getQtd());

@@ -82,7 +82,7 @@ public class CartController {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		String name = auth.getName();
 		Client client = clientService.findByUsername(name);
-				
+		cart.setSubTotal(cart.getEvent().getPrice());		
 		cart.setClient(client);
 		if(cartService.saveOrUpdateCart(cart)) {
 			return "redirect:/showHome";
