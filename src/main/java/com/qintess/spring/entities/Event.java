@@ -56,6 +56,9 @@ public class Event implements Serializable{
 	@OneToMany(mappedBy = "event", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Set<OrderItem> orders = new HashSet<OrderItem>();
 	
+	@OneToMany(mappedBy = "event", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private Set<Cart> cartItens = new HashSet<Cart>();
+	
 	public Event() {}
 
 	public Event(String name, String description, Date date, Double price, Integer qtdTicket, Client client,
@@ -150,6 +153,18 @@ public class Event implements Serializable{
 
 	public void setPhoto(String photo) {
 		this.photo = photo;
+	}
+
+	public Set<Cart> getCartItens() {
+		return cartItens;
+	}
+
+	public void setCartItens(Set<Cart> cartItens) {
+		this.cartItens = cartItens;
+	}
+
+	public void setOrders(Set<OrderItem> orders) {
+		this.orders = orders;
 	}
 
 	@Override

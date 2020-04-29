@@ -74,7 +74,7 @@
 						<h5 class="card-header" th:text="${event.price}"></h5>
 						<div class="card-body">
 							<div class="input-group">
-									<a th:href="@{/orderItem/showAddForm(eventId=${param.eventId})}"><button class="btn btn-secondary" type="button">Comprar Agora!</button></a>
+									<a th:href="@{/cart/showOrderForm(eventId=${param.eventId})}"><button class="btn btn-secondary" type="button">Comprar Agora!</button></a>
 								</span>
 							</div>
 						</div>

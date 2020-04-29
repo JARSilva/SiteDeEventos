@@ -13,6 +13,7 @@ import com.qintess.spring.entities.Contact;
 import com.qintess.spring.entities.Event;
 import com.qintess.spring.entities.Order;
 import com.qintess.spring.entities.OrderItem;
+import com.qintess.spring.entities.Role;
 import com.qintess.spring.entities.ShowHouse;
 import com.qintess.spring.repositories.AddressRepository;
 import com.qintess.spring.repositories.CityRepository;
@@ -21,6 +22,7 @@ import com.qintess.spring.repositories.ContactRepository;
 import com.qintess.spring.repositories.EventRepository;
 import com.qintess.spring.repositories.OrderItemRepository;
 import com.qintess.spring.repositories.OrderRepository;
+import com.qintess.spring.repositories.RoleRepository;
 import com.qintess.spring.repositories.ShowHouseRepository;
 import com.qintess.spring.repositories.StateRepository;
 
@@ -56,21 +58,20 @@ public class TestConfig implements CommandLineRunner {
 	
 	@Autowired
 	private ShowHouseRepository showHouseRepository;
+	
+	@Autowired
+	private RoleRepository roleRepository;
 
 	@Override
 	public void run(String... args) throws Exception {
 		
-		Client client = new Client("João", "1231321", null, "jo@hotmail.com");
-		clientRepository.save(client);
-		Order order = new Order(null, 10.0, null);
-		orderRepository.save(order);
-		order.setClient(client);
-		orderRepository.save(order);
 		Event ev = new Event("Festa da aaaa", "Sem criativity", null, 5.0, 3000, null, null);
 		eventRepository.save(ev);
-		System.out.println(eventRepository.findById(1L).get());
-		OrderItem od = new OrderItem(orderRepository.findById(1L).get(), eventRepository.findById(1L).get(), 2, 5.0);
-		System.out.println(od);
-		orderItemRepository.save(od);
+		
+		Role role = new Role("ROLE_CLIENT");
+		
+		Role role1 = new Role("ROLE_EVENTMAKER");
+		
+		roleRepository.saveAll(Arrays.asList(role, role1));
 	}
 }

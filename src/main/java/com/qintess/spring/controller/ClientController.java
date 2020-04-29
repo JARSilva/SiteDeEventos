@@ -1,6 +1,6 @@
 package com.qintess.spring.controller;
 
-import java.util.List;
+import java.util.Arrays;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,25 +13,23 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.qintess.spring.entities.Client;
-import com.qintess.spring.entities.ShowHouse;
+import com.qintess.spring.entities.Role;
 import com.qintess.spring.services.ClientService;
-import com.qintess.spring.services.ShowHouseService;
+import com.qintess.spring.services.RoleService;
+import com.qintess.spring.validation.ClientValidation;
 
 @Controller
 @RequestMapping("/client")
 public class ClientController {
 	
-	@Autowired
 	private ClientService clientService;
+	private RoleService roleService;
 
-	@GetMapping("/showClients")
-	public String getClients(Model model) {
-
-		List<Client> clients = clientService.getClients();
-
-		model.addAttribute("clients", clients);
-
-		return "main";
+	@Autowired
+	public ClientController(ClientService clientService, RoleService roleService) {
+		super();
+		this.clientService = clientService;
+		this.roleService = roleService;
 	}
 
 	@GetMapping("/showClient")
@@ -47,7 +45,7 @@ public class ClientController {
 	@GetMapping("/showAddForm")
 	public String showAddForm(Model model) {
 
-		Client client = new Client();
+		ClientValidation client = new ClientValidation();
 		
 		model.addAttribute("client", client);
 
@@ -55,10 +53,28 @@ public class ClientController {
 	}
 
 	@PostMapping("/saveClient")
-	public String saveClient(@ModelAttribute("client") Client client) {
+	public String saveClient(@ModelAttribute("client") ClientValidation clientV) {
+		
+		Client client = new Client();
+		
+		client.setName(clientV.getName());
+		client.setEmail(clientV.getEmail());
+		client.setCpf(clientV.getCpf());
+		client.setUsername(clientV.getUsername());
+		client.setPassword(clientV.getPassword());
+		client.setBirthDate(clientV.getBirthDate());
+		
+		if("EVENTMAKER".equals(clientV.getType())) {
+			Role role = roleService.findByName("ROLE_EVENTMAKER");
+			client.setRoles(Arrays.asList(roleService.findByName("ROLE_CLIENT"), role));
+		}else {
+			client.setRoles(Arrays.asList(roleService.findByName("ROLE_CLIENT")));
+		}
+			
+		
 		clientService.saveOrUpdateClient(client);
 
-		return "redirect:/event/showEvents";
+		return "redirect:/";
 	}
 
 	@GetMapping("/showUpdateForm")
@@ -76,7 +92,7 @@ public class ClientController {
 
 		clientService.deleteClient(id);
 
-		return "redirect:/event/showEvents";
+		return "redirect:/home/showHome";
 	}
 
 }

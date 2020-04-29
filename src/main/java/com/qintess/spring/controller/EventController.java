@@ -81,7 +81,7 @@ public class EventController {
 		 
 		eventService.saveOrUpdateEvent(event);
 
-		return "redirect:/event/showEvents";
+		return "redirect:/home/showHome";
 	}
 
 	@GetMapping("/showUpdateForm")
@@ -99,7 +99,7 @@ public class EventController {
 
 		eventService.deleteEvent(id);
 
-		return "redirect:/event/showEvents";
+		return "redirect:/home/showHome";
 	}
 
 }
