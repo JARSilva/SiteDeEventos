@@ -15,4 +15,6 @@ public class AspectLoggin {
 		MethodSignature method = (MethodSignature) join.getSignature();
 		System.out.println("Method: " + method);
 	}
+	
+	
 }

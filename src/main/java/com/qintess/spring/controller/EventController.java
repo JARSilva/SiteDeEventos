@@ -1,6 +1,8 @@
 package com.qintess.spring.controller;
 
-import java.io.File;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +19,7 @@ import com.qintess.spring.entities.Event;
 import com.qintess.spring.entities.ShowHouse;
 import com.qintess.spring.services.EventService;
 import com.qintess.spring.services.ShowHouseService;
+import com.qintess.spring.validation.EventValidation;
 
 @Controller
 @RequestMapping("/event")
@@ -56,7 +59,7 @@ public class EventController {
 	@GetMapping("/showAddForm")
 	public String showAddForm(Model model, Model modelShowHouse) {
 
-		Event event = new Event();
+		EventValidation event = new EventValidation();
 		List<ShowHouse> showHouses = showHouseService.getShowHouses();
 		
 		model.addAttribute("showHouses", showHouses);
@@ -76,12 +79,24 @@ public class EventController {
 	}
 
 	@PostMapping("/saveEvent")
-	public String saveEvent(@ModelAttribute("event") Event event) {
+	public String saveEvent(@ModelAttribute("event") EventValidation eventV) {
 		 
-		 
+		Event event = new Event();
+		
+		event.setName(eventV.getName());
+		event.setDescription(eventV.getDescription());
+		event.setPrice(eventV.getPrice());
+		event.setQtdTicket(eventV.getQtdTicket());
+		Date date = null;
+		try {
+			date = new SimpleDateFormat("yyyy-MM-dd").parse(eventV.getDate());
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		event.setDate(date);
 		eventService.saveOrUpdateEvent(event);
 
-		return "redirect:/home/showHome";
+		return "redirect:/showHome";
 	}
 
 	@GetMapping("/showUpdateForm")
@@ -99,7 +114,7 @@ public class EventController {
 
 		eventService.deleteEvent(id);
 
-		return "redirect:/home/showHome";
+		return "redirect:/showHome";
 	}
 
 }

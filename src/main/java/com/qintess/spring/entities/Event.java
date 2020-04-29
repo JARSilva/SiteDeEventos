@@ -5,16 +5,17 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
 import javax.persistence.Table;
 
 @Entity
@@ -36,14 +37,15 @@ public class Event implements Serializable{
 	@Column(name = "event_date")
 	private Date date;
 	
+	@Lob
+	@Column(columnDefinition = "mediumblob")
+	private byte[] imagemProd;
+	
 	@Column(name = "event_price")
 	private Double price;
 	
 	@Column(name = "event_qtdTicket")
 	private Integer qtdTicket;
-	
-	@Column(name = "event_photo")
-	private String photo;
 	
 	@ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
 	@JoinColumn(name = "client_id")
@@ -147,14 +149,6 @@ public class Event implements Serializable{
 		this.orders = orders;
 	}
 
-	public String getPhoto() {
-		return photo;
-	}
-
-	public void setPhoto(String photo) {
-		this.photo = photo;
-	}
-
 	public Set<Cart> getCartItens() {
 		return cartItens;
 	}
@@ -165,6 +159,16 @@ public class Event implements Serializable{
 
 	public void setOrders(Set<OrderItem> orders) {
 		this.orders = orders;
+	}
+	
+	
+
+	public byte[] getImagemProd() {
+		return imagemProd;
+	}
+
+	public void setImagemProd(byte[] imagemProd) {
+		this.imagemProd = imagemProd;
 	}
 
 	@Override

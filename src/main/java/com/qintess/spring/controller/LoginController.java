@@ -22,7 +22,11 @@ public class LoginController {
 	}
 
 	@GetMapping("/")
-	public String showMainPage() {
+	public String showMainPage(Model model) {
+		List<Event> events = eventService.getEvents();
+
+		model.addAttribute("events", events);
+		
 		return "index";
 	}
 

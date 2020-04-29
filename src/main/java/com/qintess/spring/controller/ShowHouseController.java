@@ -56,9 +56,11 @@ public class ShowHouseController {
 
 	@PostMapping("/saveShowHouse")
 	public String saveShowHouse(@ModelAttribute("showHouse") ShowHouse showHouse) {
+		
+		
 		showHouseService.saveOrUpdateShowHouse(showHouse);
 
-		return "redirect:/event/showEvents";
+		return "redirect:/showHome";
 	}
 
 	@GetMapping("/showUpdateForm")
@@ -76,7 +78,7 @@ public class ShowHouseController {
 
 		showHouseService.deleteShowHouse(id);
 
-		return "redirect:/event/showEvents";
+		return "redirect:/showHome";
 	}
 
 }

@@ -1,5 +1,8 @@
 package com.qintess.spring.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -33,6 +36,23 @@ public class CartController {
 		this.cartService = cartService;
 		this.clientService = clientService;
 	}
+	
+	@GetMapping("/showCart")
+	public String getCart(Model model) {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		String name = auth.getName();
+		Client client = clientService.findByUsername(name);
+		List<Cart> cart = cartService.getClientCarts(client);
+		List<Event> events = new ArrayList<Event>();
+		for (Cart c : cart) {
+			events.add(c.getEvent());
+		}
+		
+		model.addAttribute("events", events);
+		model.addAttribute("cart", cart);
+
+		return "cart";
+	}
 
 	@GetMapping("/showInfo")
 	public String getEvent(@RequestParam("eventId") int eventId, Model model) {
@@ -47,27 +67,30 @@ public class CartController {
 	@GetMapping("/showOrderForm")
 	public String showOrderForm(@RequestParam("eventId") int eventId, Model model) {
 		Cart cart = new Cart();
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		String name = auth.getName();
-		Client client = clientService.findByUsername(name);
-		cart.setClient(client);
-		
 		Event event = eventService.getEvent(eventId);
-
-		model.addAttribute("event", event);
 		
-		System.out.println("|||||||||||||||||||||||||||||||");
-		System.out.println(event);
+		cart.setEvent(event);
+		
+		model.addAttribute("event", event);
+		model.addAttribute("cart", cart);
 
 		return "order-form";
 	}
 
 	@PostMapping("/putInCart")
-	public String putInCart(@ModelAttribute("cartItem") Cart cart) {
+	public String putInCart(@ModelAttribute("cart") Cart cart) {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		String name = auth.getName();
+		Client client = clientService.findByUsername(name);
+				
+		cart.setClient(client);
+		if(cartService.saveOrUpdateCart(cart)) {
+			return "redirect:/showHome";
+		}else {
+			return "redirect:/cart/showOrderForm?eventId="+cart.getEvent().getId();
+		}
 		
-		cartService.saveOrUpdateCart(cart);
 		
-		return "redirect:/home/showHome";
 	}
 
 }

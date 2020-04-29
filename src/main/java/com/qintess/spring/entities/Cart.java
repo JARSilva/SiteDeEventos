@@ -15,26 +15,28 @@ import com.qintess.spring.entities.pk.CartPK;
 
 @Entity
 @Table(name = "tb_cart")
-public class Cart implements Serializable{
+public class Cart implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@EmbeddedId
 	private CartPK id;
 
-	@ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+	@ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST,
+			CascadeType.REFRESH })
 	@MapsId("client")
 	private Client client;
-	
-	@ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+
+	@ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST,
+			CascadeType.REFRESH })
 	@MapsId("event")
 	private Event event;
-	
-	@Column(name = "order_item_qtd")
+
+	@Column(name = "cart_item_qtd")
 	private Integer qtd;
-	
-	@Column(name = "order_item_subtotal")
+
+	@Column(name = "cart_item_subtotal")
 	private Double subTotal;
-	
+
 	public Cart() {
 		super();
 		id = new CartPK();
@@ -90,14 +92,11 @@ public class Cart implements Serializable{
 	public void setSubTotal(Double subTotal) {
 		this.subTotal = subTotal;
 	}
-	
-	
 
 	@Override
 	public String toString() {
 		return "OrderItem [id=" + id + ", client=" + client + ", event=" + event + ", qtd=" + qtd + ", subTotal="
 				+ subTotal + "]";
 	}
-	
-	
+
 }

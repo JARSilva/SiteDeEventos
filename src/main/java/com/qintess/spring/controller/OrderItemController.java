@@ -77,7 +77,7 @@ public class OrderItemController {
 		
 		orderItem.setOrder(order);
 		orderItemService.saveOrUpdateOrderItem(orderItem);
-		return "redirect:/home/showHome";
+		return "redirect:/showHome";
 	}
 
 }

@@ -1,6 +1,10 @@
 package com.qintess.spring.controller;
 
+import java.text.Format;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,7 +25,7 @@ import com.qintess.spring.validation.ClientValidation;
 @Controller
 @RequestMapping("/client")
 public class ClientController {
-	
+
 	private ClientService clientService;
 	private RoleService roleService;
 
@@ -41,37 +45,42 @@ public class ClientController {
 
 		return "client-info";
 	}
-	
+
 	@GetMapping("/showAddForm")
 	public String showAddForm(Model model) {
 
 		ClientValidation client = new ClientValidation();
-		
+
 		model.addAttribute("client", client);
 
 		return "client-form";
 	}
 
 	@PostMapping("/saveClient")
-	public String saveClient(@ModelAttribute("client") ClientValidation clientV) {
-		
+	public String saveClient(@ModelAttribute("client") ClientValidation clientV)  {
+
 		Client client = new Client();
-		
+
 		client.setName(clientV.getName());
 		client.setEmail(clientV.getEmail());
 		client.setCpf(clientV.getCpf());
 		client.setUsername(clientV.getUsername());
 		client.setPassword(clientV.getPassword());
-		client.setBirthDate(clientV.getBirthDate());
-		
-		if("EVENTMAKER".equals(clientV.getType())) {
+		Date date = null;
+		try {
+			date = new SimpleDateFormat("yyyy-MM-dd").parse(clientV.getBirthDate());
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		client.setBirthDate(date);
+
+		if ("EVENTMAKER".equals(clientV.getType())) {
 			Role role = roleService.findByName("ROLE_EVENTMAKER");
 			client.setRoles(Arrays.asList(roleService.findByName("ROLE_CLIENT"), role));
-		}else {
+		} else {
 			client.setRoles(Arrays.asList(roleService.findByName("ROLE_CLIENT")));
 		}
-			
-		
+
 		clientService.saveOrUpdateClient(client);
 
 		return "redirect:/";
@@ -92,7 +101,7 @@ public class ClientController {
 
 		clientService.deleteClient(id);
 
-		return "redirect:/home/showHome";
+		return "redirect:/showHome";
 	}
 
 }

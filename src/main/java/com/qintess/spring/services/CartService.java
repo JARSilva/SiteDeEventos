@@ -7,20 +7,34 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.qintess.spring.entities.Cart;
+import com.qintess.spring.entities.Client;
+import com.qintess.spring.entities.Event;
 import com.qintess.spring.repositories.CartRepository;
+import com.qintess.spring.repositories.EventRepository;
 
 @Service
 public class CartService {
 
 	@Autowired
 	private CartRepository repository;
+	
+	private EventService eventService;
 
-	public List<Cart> getClientCarts() {
-		return repository.findAll();
+	public List<Cart> getClientCarts(Client client) {
+		
+		return repository.findClientCart(client);
 	}
 
-	public void saveOrUpdateCart(Cart cart) {
-		repository.save(cart);
+	public boolean saveOrUpdateCart(Cart cart) {
+		Event event = cart.getEvent();
+		if((event.getQtdTicket() - cart.getQtd()) < 0) {
+			return false;
+		}else {
+			event.setQtdTicket(event.getQtdTicket() - cart.getQtd());
+			repository.save(cart);
+			return true;
+		}
+		
 	}
 
 	public Cart getCart(long id) {

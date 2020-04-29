@@ -1,7 +1,5 @@
 package com.qintess.spring.validation;
 
-import java.util.Date;
-
 public class ClientValidation {
 
 	private Long id;
@@ -14,7 +12,7 @@ public class ClientValidation {
 
 	private String cpf;
 
-	private Date birthDate;
+	private String birthDate;
 
 	private String email;
 
@@ -24,7 +22,7 @@ public class ClientValidation {
 		super();
 	}
 
-	public ClientValidation(String username, String password, String name, String cpf, Date birthDate, String email) {
+	public ClientValidation(String username, String password, String name, String cpf, String birthDate, String email) {
 		super();
 		this.username = username;
 		this.password = password;
@@ -58,11 +56,11 @@ public class ClientValidation {
 		this.cpf = cpf;
 	}
 
-	public Date getBirthDate() {
+	public String getBirthDate() {
 		return birthDate;
 	}
 
-	public void setBirthDate(Date birthDate) {
+	public void setBirthDate(String birthDate) {
 		this.birthDate = birthDate;
 	}
 

@@ -40,20 +40,15 @@ public class ShowHouse implements Serializable {
 	@JoinColumn(name = "client_id")
 	private Client client;
 
-	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "address_id")
-	private Address address;
-
 	public ShowHouse() {
 		super();
 	}
 
-	public ShowHouse(String name, Integer capacity, Client client, Address address) {
+	public ShowHouse(String name, Integer capacity, Client client) {
 		super();
 		this.name = name;
 		this.capacity = capacity;
 		this.client = client;
-		this.address = address;
 	}
 
 	public Long getId() {
@@ -100,20 +95,12 @@ public class ShowHouse implements Serializable {
 		this.client = client;
 	}
 
-	public Address getAddress() {
-		return address;
-	}
-
-
-	public void setAddress(Address address) {
-		this.address = address;
-	}
 
 
 	@Override
 	public String toString() {
 		return "ShowHouse [id=" + id + ", name=" + name + ", capacity=" + capacity + ", events=" + events + ", client="
-				+ client + ", address=" + address + "]";
+				+ "client " + "]";
 	}
 	
 

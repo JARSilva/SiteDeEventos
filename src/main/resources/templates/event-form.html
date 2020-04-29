@@ -12,7 +12,7 @@
 	<div th:replace="@{fragments/nav} :: navbar"></div>
 	<div class="container">
 		<form  th:action="@{/event/saveEvent}"
-			th:object="${event}" method="POST">
+			th:object="${event}" method="POST" >
 			
 			<div class="form-group">
 				<label for="eventName">Nome do Evento</label> 
@@ -25,11 +25,11 @@
 				<textarea class="form-control" id="eventDescription" placeholder="Descreva o evento" th:field="*{description}"></textarea>
 			</div>
 			
-			<!-- <div class="form-group">
+			<div class="form-group">
 				<label for="eventDate">Data do Evento</label> 
 				<input  type="date" class="form-control" placeholder="Digite a data do evento"
 					id="eventDate" value="${event.date}" th:field="*{date}" />
-			</div>-->
+			</div>
 			
 			<div class="form-group">
 				<label for="eventPrice">Preço por Ingresso do Evento</label> 
@@ -55,7 +55,7 @@
 			
 			<div class="form-group">
 				<label for="imagem">Imagem do evento</label> 
-				<input type="file" class="form-control-file" id="imagem" th:field="*{photo}"/>
+				<input type="file" class="form-control-file" id="imagem" th:field="*{imagemProd}"/>
 			</div>
 
 			<button type="submit" class="btn btn-primary">Submit</button>

@@ -32,10 +32,6 @@ public class Order{
 	@Column(name = "order_total")
 	private Double total;
 	
-	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "address_id")
-	private Address address;
-	
 	@ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
 	@JoinColumn(name = "client_id")
 	private Client client;
