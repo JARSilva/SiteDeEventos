@@ -1,6 +1,8 @@
 package com.qintess.spring.entities;
 
 import java.io.Serializable;
+import java.io.UnsupportedEncodingException;
+import java.util.Base64;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -20,48 +22,52 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "tb_event")
-public class Event implements Serializable{
+public class Event implements Serializable {
 	private static final long serialVersionUID = 1L;
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "event_id")
 	private Long id;
-	
+
 	@Column(name = "event_name")
 	private String name;
-	
+
 	@Column(name = "event_description")
 	private String description;
-	
+
 	@Column(name = "event_date")
 	private Date date;
-	
+
+	@Column
+	private String imagemEncoded;
+
 	@Lob
 	@Column(columnDefinition = "mediumblob")
 	private byte[] imagemProd;
-	
+
 	@Column(name = "event_price")
 	private Double price;
-	
+
 	@Column(name = "event_qtdTicket")
 	private Integer qtdTicket;
-	
-	@ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+
+	@ManyToOne(cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH })
 	@JoinColumn(name = "client_id")
 	private Client client;
-	
-	@ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+
+	@ManyToOne(cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH })
 	@JoinColumn(name = "house_id")
 	private ShowHouse showHouse;
-	
+
 	@OneToMany(mappedBy = "event", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Set<OrderItem> orders = new HashSet<OrderItem>();
-	
+
 	@OneToMany(mappedBy = "event", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Set<Cart> cartItens = new HashSet<Cart>();
-	
-	public Event() {}
+
+	public Event() {
+	}
 
 	public Event(String name, String description, Date date, Double price, Integer qtdTicket, Client client,
 			ShowHouse showHouse) {
@@ -75,7 +81,30 @@ public class Event implements Serializable{
 		this.showHouse = showHouse;
 	}
 
+	public String getImagemEncoded() {
+		try {
+			String base64Encoded;
+			byte[] encodeBase64 = Base64.getEncoder().encode(this.imagemProd);
+			base64Encoded = new String(encodeBase64, "UTF-8");
+			this.imagemEncoded = base64Encoded;
+			return imagemEncoded;
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
 
+	public byte[] getImagemProd() {
+		return imagemProd;
+	}
+
+	public void setImagemProd(byte[] imagemProd) {
+		this.imagemProd = imagemProd;
+	}
+
+	public void setImagemEncoded(String imagemEncoded) {
+		this.imagemEncoded = imagemEncoded;
+	}
 
 	public Long getId() {
 		return id;
@@ -160,25 +189,11 @@ public class Event implements Serializable{
 	public void setOrders(Set<OrderItem> orders) {
 		this.orders = orders;
 	}
-	
-	
-
-	public byte[] getImagemProd() {
-		return imagemProd;
-	}
-
-	public void setImagemProd(byte[] imagemProd) {
-		this.imagemProd = imagemProd;
-	}
 
 	@Override
 	public String toString() {
-		return "Event [id=" + id + ", name=" + name + ", description=" + description + ", date="
-				+ date + ", price=" + price + ", qtdTicket=" + qtdTicket + "]";
+		return "Event [id=" + id + ", name=" + name + ", description=" + description + ", date=" + date + ", price="
+				+ price + ", qtdTicket=" + qtdTicket + "]";
 	}
-	
-	
-	
-	
-	
+
 }
