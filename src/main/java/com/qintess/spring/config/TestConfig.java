@@ -6,10 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
 
-import com.qintess.spring.entities.Client;
 import com.qintess.spring.entities.Event;
 import com.qintess.spring.entities.Role;
-import com.qintess.spring.entities.ShowHouse;
 import com.qintess.spring.repositories.ClientRepository;
 import com.qintess.spring.repositories.ContactRepository;
 import com.qintess.spring.repositories.EventRepository;
@@ -55,12 +53,5 @@ public class TestConfig implements CommandLineRunner {
 		Role role1 = new Role("ROLE_EVENTMAKER");
 		
 		roleRepository.saveAll(Arrays.asList(role, role1));
-		
-		Client c1 = new Client("Joao", "123", "João", "13213", null, "joãoafon@hotmail.com");
-		
-		
-		ShowHouse sh1 = new ShowHouse("Casa", 20, "1212122", "Rui Barbosa", "123", "PG", "SP", c1);
-		c1.getShowHouses().add(sh1);
-		clientRepository.save(c1);
 	}
 }
